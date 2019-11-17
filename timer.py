@@ -149,9 +149,6 @@ task_text = " до " + str(dict['Задача'])
 text = " " + "Сегодня " + str(now_time()) + "\n" + " " + (str(data_dump(dict))) + task_text
 #sep = " " + (int(len(text) / 2)) * "-"
 
-#string = text + "\n" + sep
-#string_task = " Ты пидор " + "\n"
-
 #main_string = string + "\n" + string_task
 
 img = put_text_pil(img, text)
