@@ -57,14 +57,13 @@ def create_image():
     return img
 
 def default_image():
-    #if dict["path"] == "Здесь пока ничего нет":
-        #img = Image.open(r'D:\Photo\IMG_4021-1920.jpg')
-    #D:\Photo\IMG_4021.jpg
-    #else:
-        #path = dict.get("path")
-        #img = Image.open(path)
-    #img = Image.open(r'D:\Photo\IMG_4021-1920.jpg')
-    #img.show()
+    if dict["path"] == "Здесь пока ничего нет":
+        return 0
+    else:
+        path = dict.get("path")
+        img = Image.open(path)
+    img = Image.open(r'D:\Photo\IMG_4021-1920.jpg') # изображение по умолчанию
+    img.show()
     path = dict.get("path")
     img = Image.open(path)
     arr = np.asarray(img, dtype='uint8')
