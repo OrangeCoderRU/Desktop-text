@@ -30,25 +30,23 @@ lbl5.grid(row = 1, column = 2)
 lbl4 = Label(window, text="Задание:", font=("Arial Bold", 10), width=10)
 lbl4.grid(row = 4, column = 0)
 
-#lbl_data = Label(window, text="text", font=("Arial Bold", 12))
-#lbl_data.grid(row = 4, column = 1)
 task_listbox = Listbox(font = ('Arial Bold', 10), height = 4, width = 30)
 task_listbox.grid(row = 4, column = 1)
 
 dict_path = {}
 
 def insertFile():
+    """path to the selected file on screen"""
     file_name = fd.askopenfilename()
     f = open(file_name)
     p = os.path.abspath(file_name)
     print(p)
-    #s = f.read()
-    #text.insert(1.0, s)
     dict_path = {"path": p}
     lbl5.configure(text = p)
     f.close()
 
 def read_file():
+    """reading data"""
     with open("data_file.json", "r") as read_file: # read data file
         dict = json.load(read_file)
     for tasks in dict:
@@ -58,11 +56,13 @@ def read_file():
             task_listbox.insert(END, str(tasks) + " - " + str(dict[tasks]))
 
 def clicked():
+    """confirm task and data transfer timer.py"""
     dict = {"Задача": ent.get(), "День": int(combo_days.get()), "Месяц": int(combo_month.get()), "Год": int(combo_year.get()), "status": state.get(), "path": lbl5.cget("text"), "font": int(combo_font.get())}
     #dict.update(dict_path)
     save_file(dict)
     read_file()
     program = "timer.py"
+    # start logic prog
     subprocess.Popen([sys.executable, program])
 
 def save_file(dict):
@@ -77,7 +77,6 @@ state = IntVar()
 state.set(0)  # задайте проверку состояния чекбокса
 chk = Checkbutton(window, text='Белый фон', var=state)
 chk.grid(row = 3, column = 2)
-
 
 combo_days = Combobox(window, width=10)
 combo_days['values'] = (1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 29, 30, 31)
@@ -110,6 +109,5 @@ btn_open.grid(row = 5, column = 2)
 
 lbl5 = Label(window, text="Здесь пока ничего нет", font=("Arial", 10))
 lbl5.grid(row = 4, column = 2)
-
 
 window.mainloop()
