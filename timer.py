@@ -73,15 +73,11 @@ def default_image():
     arr = np.asarray(img, dtype='uint8')
     return arr
 
-print(dict["status"])
-
+# Choice image option 
 if dict["status"] == 0:
     img = default_image()
 else:
     img = create_image()
-
-#img = create_image()
-#img = default_image()
 
 def put_text_pil(img: np.array, txt: str):
     """Text on image"""
