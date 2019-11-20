@@ -10,6 +10,7 @@ import json
 dict = {}
 
 def read_file():
+    """Open data file"""
     with open("data_file.json", "r") as read_file: # read data file
         dict = json.load(read_file)
     return dict
@@ -17,6 +18,7 @@ def read_file():
 dict = read_file()
 
 def data_dump(dict):
+    """Take date data from file and return"""
     date = datetime.datetime(int(dict.get("Год")), int(dict.get("Месяц")), int(dict.get("День")), 0, 0, 0)
     today = datetime.datetime.now()
     date = date - today #datetime.timedelta
@@ -47,6 +49,7 @@ def data_dump(dict):
     return str(date.days) + string_day + " " + str(int(date.seconds / 3600)) + string_hour + "\n"
 
 def create_image():
+    """Create white image"""
     #определение разрешения экрана
     monitor_width = GetSystemMetrics(0)
     monitor_heitgh = GetSystemMetrics(1)
@@ -57,6 +60,7 @@ def create_image():
     return img
 
 def default_image():
+    """Using default_image"""
     if dict["path"] == "Здесь пока ничего нет":
         return 0
     else:
@@ -80,6 +84,7 @@ else:
 #img = default_image()
 
 def put_text_pil(img: np.array, txt: str):
+    """Text on image"""
     im = Image.fromarray(img)
 
     font_size = dict["font"]
@@ -91,23 +96,22 @@ def put_text_pil(img: np.array, txt: str):
 
     draw = ImageDraw.Draw(im)
     width, height = im.size
-    #x, y = (width-700, height-1050)
     x, y = ((width / 1.5) + 150, height / 100)
-    #x, y = (width - 500, height - 600)
-    # теперь можно центрировать текст
-    #draw.text((int((img.shape[1] - w)/2) + 100, y_pos), txt, fill='rgb(0, 0, 0)', font=font)
+
     draw.text((x, y), txt, fill='rgb(0, 0, 0)', font=font)
     img = np.asarray(im)
 
     return img
 
 def date_time():
-    date = datetime.datetime(2019, 11, 16, 0, 0, 0)
+    """Default date"""
+    date = datetime.datetime(2019, 11, 16, 0, 0, 0) # дата напоминания по умолчанию
     today = datetime.datetime.today()
     date = date - today
     return date
 
 def now_time():
+    """<Now time> computing"""
     today = datetime.datetime.now()
     today_month = ""
     if today.month == 1:
@@ -137,18 +141,15 @@ def now_time():
     return str(today.day) + " " + today_month
 
 def set_wallpaper():
+    """Installation image on Desktop"""
     SPI_SETDESKWALLPAPER = 20 # константа, всегда = 20
     p = os.path.abspath('my.jpg')
     arg = ctypes.windll.user32.SystemParametersInfoW(SPI_SETDESKWALLPAPER, 0, p , 0)
     # SystemParametersInfoW - 64 bit системы
     # SystemParametersInfoA - 32 bit системы
 
-
 task_text = " до " + str(dict['Задача'])
 text = " " + "Сегодня " + str(now_time()) + "\n" + " " + (str(data_dump(dict))) + task_text
-#sep = " " + (int(len(text) / 2)) * "-"
-
-#main_string = string + "\n" + string_task
 
 img = put_text_pil(img, text)
 image = Image.fromarray(img, 'RGB')
